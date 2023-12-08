@@ -3,11 +3,8 @@ package com.spring.mvc.chap04.service;
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreResponseDTO;
 import com.spring.mvc.chap04.entity.Score;
-import com.spring.mvc.chap04.repository.ScoreRepository;
+import com.spring.mvc.chap04.repository.ScoreMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +17,16 @@ import java.util.stream.Collectors;
  * 컨트롤러 -> 서비스 -> 레파지토리
  **/
 @Service
+@RequiredArgsConstructor
 public class ScoreService {
 
-    private final ScoreRepository repository;
+    private final ScoreMapper repository;
 
-    public ScoreService(@Qualifier("dbRepo") ScoreRepository repository) {
-        this.repository = repository;
-    }
+//    private final ScoreRepository repository;
+
+//    public ScoreService(@Qualifier("dbRepo") ScoreRepository repository) {
+//        this.repository = repository;
+//    }
 
     // 목록 조회 중간처리
     /*
