@@ -6,12 +6,13 @@
 <mapper namespace="com.spring.mvc.chap05.repository.BoardMapper">
 
     <select id="findAll" resultType="board">
-        SELETE * FROM tbl_board
+        SELECT * FROM tbl_board
         ORDER BY board_no DESC
+        LIMIT #{pageStart}, #{amount}
     </select>
 
     <select id="findOne" resultType="board">
-        SELETE * FROM tbl_board
+        SELECT * FROM tbl_board
         WHERE board_no = #{boardNo}
     </select>
 

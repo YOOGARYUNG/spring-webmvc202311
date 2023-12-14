@@ -48,7 +48,7 @@ class BoardMapperTest {
         //when
         List<Board> boardList = mapper.findAll();
         //then
-        assertEquals(301, boardList.size());
+        assertEquals(300, boardList.size());
     }
 
 
