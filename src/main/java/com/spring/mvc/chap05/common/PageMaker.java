@@ -14,6 +14,7 @@ public class PageMaker {
     // 이전, 다음 버튼 활성화 여부
     private boolean prev, next;
 
+
     // 현재 페이지 정보
     private Page page;
 
@@ -88,5 +89,8 @@ public class PageMaker {
 
         // 4. next활성화 여부 - 마지막 페이지구간에서만 비활성화
         this.next = this.end < this.finalPage;
+
+
+
     }
 }
