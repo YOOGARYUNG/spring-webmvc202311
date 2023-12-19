@@ -20,6 +20,7 @@ public class PageMaker {
 
     // 총 게시물 수
     private int totalCount;
+    private int amount;
 
     public PageMaker(Page page, int totalCount) {
         this.page = page;
@@ -90,7 +91,7 @@ public class PageMaker {
         // 4. next활성화 여부 - 마지막 페이지구간에서만 비활성화
         this.next = this.end < this.finalPage;
 
-
+        this.amount = page.getAmount();
 
     }
 }

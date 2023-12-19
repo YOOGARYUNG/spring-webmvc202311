@@ -1,5 +1,6 @@
 package com.spring.mvc.chap05.repository;
 
+import com.spring.mvc.chap05.common.Search;
 import com.spring.mvc.chap05.entity.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,36 +42,37 @@ class BoardMapperTest {
 
 
     @Test
-    @DisplayName("게시물을 전체조회하면 301개의 게시물이 조회된다.")
+    @DisplayName("게시물을 전체조회하면 303개의 게시물이 조회된다.")
     void findAllTest() {
         //given
 
         //when
-        List<Board> boardList = mapper.findAll();
+        List<Board> boardList = mapper.findAll(new Search());
         //then
-        assertEquals(300, boardList.size());
+        assertEquals(303, boardList.size());
     }
 
 
     @Test
-    @DisplayName("30번 게시물을 단일조회하면 제목에 28이 포함되어 있어야 한다.")
+    @DisplayName("30번 게시물을 단일조회하면 제목에 27이 포함되어 있어야 한다.")
     void findOneTest() {
         //given
         int boardNo = 30;
         //when
         Board b = mapper.findOne(boardNo);
         //then
-        assertTrue(b.getTitle().contains("28"));
+        assertTrue(b.getTitle().contains("27"));
     }
 
 
     @Test
-    @DisplayName("30번 게시물을 삭제하고 다시 조회하면 조회되지 않아야 한다.")
+    @DisplayName("29번 게시물을 삭제하고 다시 조회하면 조회되지 않아야 한다.")
     @Transactional
     @Rollback
     void deleteTest() {
+        // 테스트는 몇번을 돌려도 같은 결과가 나와야 함
         //given
-        int boardNo = 30;
+        int boardNo = 29;
         //when
         boolean flag = mapper.deleteByNo(boardNo);
         Board board = mapper.findOne(boardNo);
