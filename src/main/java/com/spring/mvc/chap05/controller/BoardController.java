@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -24,6 +25,7 @@ public class BoardController {
     public String list(@ModelAttribute("s") Search page, Model model){
         System.out.println("/board/list : GET!");
         System.out.println(page);
+
         List<BoardListResponseDTO> dtoList = boardService.getList(page);
 
         // 페이징 계산 알고리즘 적용
@@ -42,9 +44,9 @@ public class BoardController {
     }
     // 3. 글쓰기 등록요청 (/board/write : POST)
     @PostMapping("/write")
-    public String write(BoardWriteRequestDTO dto){
+    public String write(BoardWriteRequestDTO dto, HttpSession session){
         System.out.println("/board/write :post!"+dto);
-        boardService.register(dto);
+        boardService.register(dto, session);
         return "redirect:/board/list";
 
 

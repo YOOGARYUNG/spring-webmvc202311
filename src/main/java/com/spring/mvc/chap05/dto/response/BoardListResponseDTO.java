@@ -2,11 +2,11 @@ package com.spring.mvc.chap05.dto.response;
 
 //데이터 베이스ㅌ에서 가져온 순수한 날것의 데이터를
 //가공 해서 ㅈ장하고 있는 갹채
+
 import com.spring.mvc.chap05.entity.Board;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +22,7 @@ public class BoardListResponseDTO {
     private final  String shortContent; // 30자 이상이면 잘라내기
     private final String date; // 날짜패턴 yyyy-MM-dd HH:mm
     private final int viewCount; // 조회수
+    private final String account;
 
     public BoardListResponseDTO(Board board) {
         this.boardNo = board.getBoardNo();
@@ -29,6 +30,7 @@ public class BoardListResponseDTO {
         this.shortContent = makeShortContent(board.getContent());
         this.date = makePrettierDateString(board.getRegDateTime());
         this.viewCount = board.getViewCount();
+        this.account = board.getAccount();
     }
 
     static String makePrettierDateString(LocalDateTime regDateTime) {
