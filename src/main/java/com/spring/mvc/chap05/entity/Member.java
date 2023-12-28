@@ -30,4 +30,6 @@ public class Member {   // 운반책
     private String email;
     private Auth auth;
     private LocalDateTime date;
+    private String sessionId;
+    private LocalDateTime limitTime;
 }
