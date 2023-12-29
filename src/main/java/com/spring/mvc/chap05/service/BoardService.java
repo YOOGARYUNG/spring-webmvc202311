@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardMapper boardRepository;
 
-    // 목록 조회 중간처리
-    public List<BoardListResponseDTO> getList(Search page) {
-        return boardRepository.findAll(page)
-                .stream()
-                .map(BoardListResponseDTO::new)
-                .collect(Collectors.toList());
-    }
+        // 목록 조회 중간처리
+        public List<BoardListResponseDTO> getList(Search page) {
+            return boardRepository.findAll(page)
+                    .stream()
+                    .map(BoardListResponseDTO::new)
+                    .collect(Collectors.toList());
+        }
 
     // 글 쓰기 중간처리
     public void register(BoardWriteRequestDTO dto, HttpSession session) {
