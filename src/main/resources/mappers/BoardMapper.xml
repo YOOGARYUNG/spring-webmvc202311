@@ -2,11 +2,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- namespace에는 이파일과 연동될 인터페이스의 전체경로(패키지명포함 클래스명)를 적는다. -->
 <mapper namespace="com.spring.mvc.chap05.repository.BoardMapper">
 
     <select id="findAll" resultType="board">
-        SELECT * FROM tbl_board
+        SELECT
+        *
+        FROM tbl_board
 
         <if test="type == 'title'">
             WHERE title LIKE CONCAT('%', #{keyword}, '%')
@@ -24,14 +25,22 @@
     </select>
 
     <select id="findOne" resultType="board">
-        SELECT * FROM tbl_board
+        SELECT
+        B.board_no, B.title
+        , B.content, B.view_count
+        , B.reg_date_time, B.account
+        , M.name AS writer
+        FROM tbl_board B
+        JOIN tbl_member M
+        ON B.account = M.account
         WHERE board_no = #{boardNo}
     </select>
 
     <insert id="save">
         INSERT INTO tbl_board
-            (title, content, account)
-        VALUES(#{title}, #{content}, #{account})
+        (title, content, account)
+        VALUES
+        (#{title}, #{content}, #{account})
     </insert>
 
     <delete id="deleteByNo">
@@ -46,8 +55,8 @@
     </update>
 
     <select id="count" resultType="int">
-        SELECT COUNT(*) FROM tbl_board
-
+        SELECT COUNT(*)
+        FROM tbl_board
         <if test="type == 'title'">
             WHERE title LIKE CONCAT('%', #{keyword}, '%')
         </if>
@@ -58,6 +67,7 @@
             WHERE title LIKE CONCAT('%', #{keyword}, '%')
             OR content LIKE CONCAT('%', #{keyword}, '%')
         </if>
+
     </select>
 
 </mapper>

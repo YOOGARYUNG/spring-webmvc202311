@@ -1,7 +1,5 @@
 package com.spring.mvc.chap05.entity;
 
-//import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
-
 import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import lombok.*;
 
@@ -22,6 +20,7 @@ public class Board {
     private int viewCount; // 조회수
     private LocalDateTime regDateTime; // 작성일자시간
     private String account;
+    private String writer;
 
     public Board(int boardNo, String title, String content) {
         this.boardNo = boardNo;
@@ -29,6 +28,7 @@ public class Board {
         this.content = content;
         this.regDateTime = LocalDateTime.now();
     }
+
 
     public Board(BoardWriteRequestDTO dto) {
         this.title = dto.getTitle();
@@ -42,15 +42,10 @@ public class Board {
         this.content = rs.getString("content");
         this.viewCount = rs.getInt("view_count");
         this.regDateTime = rs.getTimestamp("reg_date_time").toLocalDateTime();
+
     }
 
     public void upViewCount() {
         this.viewCount++;
     }
-
-//    public Board(BoardWriteRequestDTO dto) {
-//        this.title = dto.getTitle();
-//        this.content = dto.getContent();
-//        this.regDateTime = LocalDateTime.now();
-//    }
 }
