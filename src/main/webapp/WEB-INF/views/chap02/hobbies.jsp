@@ -7,13 +7,14 @@
     <title>Web Study</title>
 </head>
 <body>
-<h1>[ ${userName} ]님 취미 목록</h1>
+    <h1>[ ${userName} ]님 취미 목록</h1>
 
-<ol>
-    <%--  for (String h : hobbyList)  --%>
-    <c:forEach var="h" items="${hobbies}">
-        <li>${h}</li>
-    </c:forEach>
-</ol>
+    <ol>
+<%--       for (String h : hobbyList)   --%>
+
+        <c:forEach var="h" items="${hobbies}">
+            <li>${h}</li>
+        </c:forEach>
+    </ol>
 </body>
 </html>

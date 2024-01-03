@@ -1,6 +1,6 @@
 package com.spring.mvc.config;
 
-//미리 만들어놓은 에러페이졸 안내하는 설정
+// 미리 만들어놓은 에러페이지로 안내하는 설정
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;
@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 
 @Configuration
 public class CustomErrorPageConfig implements ErrorPageRegistrar {
-
     @Override
     public void registerErrorPages(ErrorPageRegistry registry) {
 
@@ -19,5 +18,4 @@ public class CustomErrorPageConfig implements ErrorPageRegistrar {
 
         registry.addErrorPages(errorPage404, errorPage500);
     }
-
 }

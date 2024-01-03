@@ -1,10 +1,8 @@
 package com.spring.mvc.chap06.jdbc;
 
 import com.spring.mvc.chap06.entity.Person;
-import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.stereotype.Repository;
 
-import javax.management.PersistentMBean;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +11,10 @@ import java.util.List;
 public class JdbcRepository {
 
     // db 연결 설정정보
-    private String url ="jdbc:mariadb://localhost:3306/spring"; // 데이터베이스 URL
+    private String url = "jdbc:mariadb://localhost:3306/spring"; // 데이터베이스 URL
     private String username = "root";
     private String password = "mariadb";
+
 
     // JDBC 드라이버 로딩
     public JdbcRepository() {
@@ -35,18 +34,20 @@ public class JdbcRepository {
     public void save(Person person) {
 
         Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, username, password);
 
+        //1. DB연결하고 연결 정보를 얻어와야 함
+        try {
+
+            conn = DriverManager.getConnection(url, username, password);
             // 2. 트랜잭션을 시작
             conn.setAutoCommit(false); // 자동 커밋 비활성화
 
             // 3. SQL을 생성
-            String sql = "insert into person" +
+            String sql = "INSERT INTO person " +
                     "(id, person_name, person_age) " +
-                    "values (?,?,?)";
+                    "VALUES (?, ?, ?)";
 
-            // 4. SQL으 실행시켜주는 객체를 얻어와야함
+            // 4. SQL을 실행시켜주는 객체 얻어와야 함
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             // 5. ? 파라미터 세팅
@@ -62,10 +63,9 @@ public class JdbcRepository {
             if (result == 1) conn.commit();
             else conn.rollback();
 
-
         } catch (SQLException e) {
             try {
-                if(conn !=null) conn.rollback();
+                if(conn != null) conn.rollback();
             } catch (SQLException ex) {
                 e.printStackTrace();
             }
@@ -77,6 +77,7 @@ public class JdbcRepository {
             }
         }
     }
+
 
 
     // UPDATE 기능
@@ -127,6 +128,7 @@ public class JdbcRepository {
         }
     }
 
+
     // DELETE 기능
     public void delete(String id) {
 
@@ -140,14 +142,13 @@ public class JdbcRepository {
             conn.setAutoCommit(false); // 자동 커밋 비활성화
 
             // 3. SQL을 생성
-            String sql = "delete from person " +
-                    "where id = ?";
+            String sql = "DELETE FROM person " +
+                    "WHERE id = ?";
 
             // 4. SQL을 실행시켜주는 객체 얻어와야 함
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             // 5. ? 파라미터 세팅
-
             pstmt.setString(1, id);
 
             // 6. SQL 실행 명령
@@ -193,14 +194,17 @@ public class JdbcRepository {
             ResultSet rs = pstmt.executeQuery();
 
             // 6. 결과집합 조작하기
-            rs.next(); // 커서를 한행씩 이동시키는 기능
+            while (rs.next()) { // 커서를 한행씩 이동시키는 기능
 
-            // 커서에 위치한 데이터 레코드 읽기
-            String personName = rs.getString("person_name");
-            int personAge = rs.getInt("person_age");
+                // 커서에 위치한 데이터 레코드 읽기
+                String id = rs.getString("id");
+                String personName = rs.getString("person_name");
+                int personAge = rs.getInt("person_age");
 
-            System.out.println("personName = " + personName);
-            System.out.println("personAge = " + personAge);
+                Person p = new Person(id, personName, personAge);
+
+                people.add(p);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -242,5 +246,7 @@ public class JdbcRepository {
         }
         return null;
     }
+
+
 
 }

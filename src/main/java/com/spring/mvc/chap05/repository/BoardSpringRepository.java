@@ -22,7 +22,7 @@ public class BoardSpringRepository implements BoardRepository {
     @Override
     public Board findOne(int boardNo) {
         String sql = "SELECT * FROM tbl_board WHERE board_no = ?";
-        return template.queryForObject(sql, (rs, rn) -> new Board(rs), boardNo);
+        return template.queryForObject(sql, (rs, rn)-> new Board(rs), boardNo);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BoardSpringRepository implements BoardRepository {
 
     @Override
     public void updateViewCount(int boardNo) {
-        String sql = "UDATE tbl_board " +
+        String sql = "UPDATE tbl_board " +
                 "SET view_count = view_count + 1 " +
                 "WHERE board_no = ?";
         template.update(sql, boardNo);

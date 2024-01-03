@@ -5,18 +5,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 // 테스트 프레임워크 : junit5 - 모든걸 default제한자
-@SpringBootTest // 스프링이 관리하는 빈을 주입받기 위한 이노테이션
+@SpringBootTest // 스프링이 관리하는 빈을 주입받기 위한 아노테이션
 class SpringJdbcRepositoryTest {
 
     @Autowired
     SpringJdbcRepository repository;
+
 
     @Test
     @DisplayName("사람 정보를 데이터베이스에 저장한다")
@@ -28,8 +28,9 @@ class SpringJdbcRepositoryTest {
         //then
     }
 
+
     @Test
-    @DisplayName("99번의 이름과 니이를 수정한다.")
+    @DisplayName("99번회원의 이름과 나이를 수정한다.")
     void modifyTest() {
         //given
         String id = "99";
@@ -37,12 +38,13 @@ class SpringJdbcRepositoryTest {
         int newAge = 50;
         Person p = new Person(id, newName, newAge);
         //when
-            repository.modify(p);
+        repository.modify(p);
         //then
     }
 
+
     @Test
-    @DisplayName("99번의 삭제한다.")
+    @DisplayName("99번을 삭제한다")
     void removeTest() {
         //given
         String id = "99";
@@ -51,6 +53,7 @@ class SpringJdbcRepositoryTest {
         //then
     }
 
+
     @Test
     @DisplayName("전체 조회를 해야한다.")
     void findAllTest() {
@@ -58,10 +61,12 @@ class SpringJdbcRepositoryTest {
 
         //when
         List<Person> people = repository.findAll();
+
         //then
-//        assertEquals(10, people);
+//        assertEquals(10, people.size());
         people.forEach(System.out::println);
     }
+
 
     @Test
     @DisplayName("30번 회원을 등록한후 조회한다")
@@ -76,11 +81,6 @@ class SpringJdbcRepositoryTest {
         assertEquals("두껍이", foundPerson.getPersonName());
         System.out.println("foundPerson = " + foundPerson);
     }
-
-
-
-
-
 
 
 

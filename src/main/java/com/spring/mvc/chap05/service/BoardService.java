@@ -17,29 +17,33 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BoardService {
+
+    // private final BoardRepository boardRepository;
     private final BoardMapper boardRepository;
 
-        // 목록 조회 중간처리
-        public List<BoardListResponseDTO> getList(Search page) {
-            return boardRepository.findAll(page)
-                    .stream()
-                    .map(BoardListResponseDTO::new)
-                    .collect(Collectors.toList());
-        }
+    // 목록 조회 중간처리
+    public List<BoardListResponseDTO> getList(Search page) {
+       return boardRepository.findAll(page)
+               .stream()
+               .map(BoardListResponseDTO::new)
+               .collect(Collectors.toList())
+       ;
+    }
 
     // 글 쓰기 중간처리
     public void register(BoardWriteRequestDTO dto, HttpSession session) {
-        // dto를 엔터티로 변환
+        // dto 를 엔터티로 변환
         Board board = new Board(dto);
         board.setAccount(LoginUtils.getCurrentLoginMemberAccount(session));
         boardRepository.save(board);
     }
 
+
     public void delete(int boardNo) {
         boardRepository.deleteByNo(boardNo);
     }
 
-    public Object getDetail(int bno) {
+    public BoardDetailResponseDTO getDetail(int bno) {
         Board board = boardRepository.findOne(bno);
 
         // 조회수 상승처리
@@ -51,9 +55,5 @@ public class BoardService {
 
     public int getCount(Search search) {
         return boardRepository.count(search);
-    }
-
-    public void getSearch() {
-
     }
 }

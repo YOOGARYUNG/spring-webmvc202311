@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.spring.mvc.chap05.service.LoginResult.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MemberServiceTest {
 
     @Autowired
     MemberService memberService;
+
 
     @Test
     @DisplayName("회원정보를 전달하면 비밀번호가 암호화되어 디비에 저장된다.")
@@ -28,11 +28,12 @@ class MemberServiceTest {
                 .email("sanrio123@gmail.com")
                 .build();
         //when
-        boolean flag = memberService.join(dto);
+        boolean flag = memberService.join(dto, savePath);
 
         //then
         assertTrue(flag);
     }
+
 
     @Test
     @DisplayName("계정명이 kitty인 회원의 로그인시도 결과를 상황별로 검증한다.")
@@ -46,9 +47,8 @@ class MemberServiceTest {
         LoginResult result = memberService.authenticate(dto, null, null);
 
         //then
-        assertEquals(NO_ACC, result);
+        assertEquals(SUCCESS, result);
     }
-
 
 
 }

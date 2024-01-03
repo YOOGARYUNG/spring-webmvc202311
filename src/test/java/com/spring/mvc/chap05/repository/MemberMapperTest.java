@@ -18,15 +18,16 @@ class MemberMapperTest {
     @Autowired
     PasswordEncoder encoder;
 
+
     @Test
-    @DisplayName("회원가입에 성공해야 한다.")
+    @DisplayName("회원가입에 성공해야 한다")
     void saveTest() {
         //given
         Member member = Member.builder()
                 .account("kuromi")
-                .password(encoder.encode("aaa1234"))
+                .password(encoder.encode("abc1234!"))
                 .name("쿠로미")
-                .email("kuromi@naver.com")
+                .email("kuromi@gmail.com")
                 .build();
         //when
         boolean flag = memberMapper.save(member);
@@ -37,13 +38,12 @@ class MemberMapperTest {
 
 
     @Test
-    @DisplayName("lesserafim계정을 조회하면 그 회원의 이름이 라이옹이어야 한다.")
+    @DisplayName("lesserafim계정을 조회하면 그 회원의 이름이 라이옹이어야 한다")
     void findMemberTest() {
         //given
         String acc = "lesserafim";
         //when
         Member foundMember = memberMapper.findMember(acc);
-
         //then
         System.out.println("foundMember = " + foundMember);
         assertEquals("라이옹", foundMember.getName());
@@ -51,8 +51,8 @@ class MemberMapperTest {
 
 
     @Test
-    @DisplayName("계정이 newjeans일 경우 결과값은 false이어야 한다.")
-    void duplicatetest() {
+    @DisplayName("계정이 newjeans일 경우 중복확인 결과값은 false이어야 한다.")
+    void duplicateTest() {
         //given
         String acc = "newjeans";
         //when
@@ -62,7 +62,7 @@ class MemberMapperTest {
     }
 
     @Test
-    @DisplayName("이메일이 abc@naver.com일 경우 중복확인 결과값은 true이어야 한다")
+    @DisplayName("이메일이 abc@naver.com일 경우 중복확인 결과값은 true이어야 한다.")
     void duplicateEmailTest() {
         //given
         String email = "abc@naver.com";
@@ -76,18 +76,17 @@ class MemberMapperTest {
     @Test
     @DisplayName("비밀번호가 암호화되어야 한다")
     void encodingTest() {
+
         // 인코딩 전 패스워드
         String rawPassword = "abc1234!@";
 
         // 인코딩 후 패스워드
-        String endosedPassword = encoder.encode(rawPassword);
+        String encodedPassword = encoder.encode(rawPassword);
 
         System.out.println("rawPassword = " + rawPassword);
-        System.out.println("endosedPassword = " + endosedPassword);
+        System.out.println("encodedPassword = " + encodedPassword);
+
     }
-
-
-
 
 
 }

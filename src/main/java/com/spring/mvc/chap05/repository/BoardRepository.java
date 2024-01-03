@@ -20,7 +20,6 @@ public interface BoardRepository {
     boolean deleteByNo(int boardNo);
 
     // 조회수 상승
-    default void updateViewCount(int boardNo) {
+    default void updateViewCount(int boardNo) {}
 
-    }
 }

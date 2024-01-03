@@ -1,5 +1,6 @@
 package com.spring.mvc.interceptor;
 
+import com.spring.mvc.util.LoginUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static com.spring.mvc.util.LoginUtils.isLogin;
+import static com.spring.mvc.util.LoginUtils.*;
 
 @Configuration
 @Slf4j
@@ -28,8 +29,13 @@ public class AfterLoginInterceptor implements HandlerInterceptor {
 
         if (isLogin(session)) {
             response.sendRedirect("/");
-            return false;
+            return false; // 꺼져 나가~
         }
-    return true;
+
+
+
+
+        return true; // 드루와~~
+
     }
 }

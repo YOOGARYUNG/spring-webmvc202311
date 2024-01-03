@@ -8,39 +8,42 @@ import java.sql.SQLException;
 
 /**
  * 엔터티 클래스
- * - 데이터 베이스에 저장할 데이터를 자바 클래스에 매칭
+ * - 데이터베이스에 저장할 데이터를 자바 클래스에 매칭
+ *
+
+ -- 성적 테이블 생성하기
+ create table tbl_score (
+ stu_num INT(10) PRIMARY KEY AUTO_INCREMENT,
+ stu_name VARCHAR(255) NOT NULL,
+ kor INT(3) NOT NULL,
+ eng INT(3) NOT NULL,
+ math INT(3) NOT NULL,
+ total INT(3),
+ average FLOAT(5, 2),
+ grade CHAR(1)
+ );
+
+ SELECT * FROM tbl_score;
+
+ *
  */
 @Setter @Getter
 @ToString @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Score {
-    private String name; // 학생이름
-    private int kor, eng, math; // 구영수 점수
+
+    private String name; // 학생 이름
+    private int kor, eng, math; // 국영수 점수
 
     private int stuNum; // 학번
     private int total; // 총점
     private double average; // 평균
     private Grade grade; // 학점
 
-    /*
-    -- 성적 테이블 생성하기
-    create table tbl_score (
-            stu_num INT(10) PRIMARY KEY AUTO_INCREMENT,
-    stu_name VARCHAR(255) NOT NULL ,
-    kor INT(3) NOT NULL ,
-    end INT(3) NOT NULL ,
-    math INT(3) NOT NULL ,
-    total INT(3) ,
-    eaverage FLOAT(5,2) ,
-    grade CHAR(1)
-); */
-
     public Score(ScoreRequestDTO score) {
         convertInputData(score);
-
         calculateTotalAndAverage();
-
         makeGrade();
     }
 
@@ -53,20 +56,19 @@ public class Score {
         this.total = rs.getInt("total");
         this.average = rs.getDouble("average");
         this.grade = Grade.valueOf(rs.getString("grade"));
+    }
 
+    private void makeGrade() {
+        if (average >= 90) this.grade = Grade.A;
+        else if (average >= 80) this.grade = Grade.B;
+        else if (average >= 70) this.grade = Grade.C;
+        else if (average >= 60) this.grade = Grade.D;
+        else this.grade = Grade.F;
     }
 
     private void calculateTotalAndAverage() {
         this.total = kor + math + eng;
         this.average = total / 3.0;
-    }
-
-    private void makeGrade() {
-        if (average > 90) this.grade = Grade.A;
-        else if (average > 80) this.grade = Grade.B;
-        else if (average > 70) this.grade = Grade.C;
-        else if (average > 60) this.grade = Grade.D;
-        else this.grade = Grade.F;
     }
 
     private void convertInputData(ScoreRequestDTO score) {
@@ -83,6 +85,4 @@ public class Score {
         calculateTotalAndAverage();
         makeGrade();
     }
-
-
 }

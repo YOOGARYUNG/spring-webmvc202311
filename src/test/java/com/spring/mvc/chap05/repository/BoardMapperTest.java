@@ -38,21 +38,21 @@ class BoardMapperTest {
 //
 //        //then
 //    }
-
-
-
+    
+    
+    
     @Test
     @DisplayName("게시물을 전체조회하면 303개의 게시물이 조회된다.")
     void findAllTest() {
         //given
-
+        
         //when
         List<Board> boardList = mapper.findAll(new Search());
         //then
         assertEquals(303, boardList.size());
     }
-
-
+    
+    
     @Test
     @DisplayName("30번 게시물을 단일조회하면 제목에 27이 포함되어 있어야 한다.")
     void findOneTest() {
@@ -63,7 +63,7 @@ class BoardMapperTest {
         //then
         assertTrue(b.getTitle().contains("27"));
     }
-
+    
 
     @Test
     @DisplayName("29번 게시물을 삭제하고 다시 조회하면 조회되지 않아야 한다.")

@@ -1,5 +1,6 @@
 package com.spring.mvc.util;
 
+
 import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
 import org.springframework.web.util.WebUtils;
 
@@ -12,13 +13,16 @@ public class LoginUtils {
     // 로그인 세션 키
     public static final String LOGIN_KEY = "login";
 
+    // 자동 로그인 쿠키 이름
     public static final String AUTO_LOGIN_COOKIE = "auto";
+
 
     // 로그인 여부 확인
     public static boolean isLogin(HttpSession session) {
         return session.getAttribute(LOGIN_KEY) != null;
     }
-    // 자동 로그인 여부확인
+
+    // 자동로그인 여부 확인
     public static boolean isAutoLogin(HttpServletRequest request) {
         return WebUtils.getCookie(request, AUTO_LOGIN_COOKIE) != null;
     }
@@ -42,5 +46,6 @@ public class LoginUtils {
     public static boolean isMine(HttpSession session, String targetAccount) {
         return targetAccount.equals(getCurrentLoginMemberAccount(session));
     }
+
 
 }

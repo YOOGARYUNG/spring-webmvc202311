@@ -59,7 +59,7 @@
             <label class="price"># 가격: <span class="price-value">3000</span>원</label>
 
             <!-- 화면에 렌더링은 안되지만 서버로 보낼 수 있음 -->
-            <input id="price-tag" type="hidden" name="price" value="3000">
+            <input id="price-tag" type="hidden" name="price">
 
 
             <label>
@@ -75,29 +75,29 @@
 
 <script>
 
-    const coffePrice = {
-        americano: 3000,
-        cafeLatte: 4500,
-        macchiato: 5000
-    };
+  const coffePrice = {
+    americano: 3000,
+    cafeLatte: 4500,
+    macchiato: 5000
+  };
 
 
 
-    // change : input이나 select태그의 값이 변했을 때
+  // change : input이나 select태그의 값이 변했을 때
 
-    const $menu = document.getElementById('menu-sel');
-    $menu.onchange = e => {
-        // 커피를 선택하면 가격이 변해야 함!
-        // console.log(e.target.value);
-        // console.log(coffePrice[e.target.value]);
+  const $menu = document.getElementById('menu-sel');
+  $menu.onchange = e => {
+    // 커피를 선택하면 가격이 변해야 함!
+    // console.log(e.target.value);
+    // console.log(coffePrice[e.target.value]);
 
-        const price = coffePrice[e.target.value]
-        document.querySelector('.price-value').textContent
-            = price;
+    const price = coffePrice[e.target.value]
+    document.querySelector('.price-value').textContent
+      = price;
 
-        const $priceTag = document.getElementById('price-tag');
-        $priceTag.value = price;
-    };
+    const $priceTag = document.getElementById('price-tag');
+    $priceTag.value = price;
+  };
 
 </script>
 

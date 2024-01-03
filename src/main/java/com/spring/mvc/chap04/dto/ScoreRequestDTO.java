@@ -1,6 +1,5 @@
 package com.spring.mvc.chap04.dto;
 
-import com.spring.mvc.chap04.entity.Score;
 import lombok.*;
 
 @Setter @Getter @ToString
@@ -10,6 +9,4 @@ import lombok.*;
 public class ScoreRequestDTO {
     private String name;
     private int kor, eng, math;
-
-
 }

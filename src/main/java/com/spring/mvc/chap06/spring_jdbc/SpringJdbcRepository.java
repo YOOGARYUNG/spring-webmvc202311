@@ -14,19 +14,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpringJdbcRepository {
 
-    // 데이터소스 설정 : 데이터베이스 접속정보 설정 (url, id, pw,,,)
+    // 데이터소스 설정 : 데이터베이스 접속정보 설정 (url, id, pw...)
     // application.properties 파일에 작성
 
     // JdbcTemplate 빈 의존성 주입
     private final JdbcTemplate template;
 
+
     // INSERT 기능
     public void save(Person p) {
         String sql = "INSERT INTO person " +
                 "(id, person_name, person_age) " +
-                "VALUES (?,?,?)";
+                "VALUES (?, ?, ?)";
         template.update(sql, p.getId(), p.getPersonName(), p.getPersonAge());
-
     }
 
     // DELETE 기능
@@ -44,8 +44,10 @@ public class SpringJdbcRepository {
         template.update(sql, p.getPersonName(), p.getPersonAge(), p.getId());
     }
 
+
     // 전체 조회
     public List<Person> findAll() {
+
         String sql = "SELECT * FROM person";
         // rowMapper : DB에서 조회한 것들을 객체로 어떻게 매칭할지 설정
         return template.query(sql, (rs, rowNum) -> new Person(rs));

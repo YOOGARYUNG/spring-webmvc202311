@@ -20,20 +20,20 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        // 로그인 후 비회원전용페이지 덥근 차단 인터셉터 설정
+        // 로그인 후 비회원전용페이지 접근 차단 인터셉터 설정
         registry
                 .addInterceptor(afterLoginInterceptor) // 어떤 인터셉터를 등록할 것인가
-                .addPathPatterns("/members/sign-in", "/members/sign-up") // 어떤 요총에서 인터셉터를 발동시킬 것인가
+                .addPathPatterns("/members/sign-in", "/members/sign-up") // 어떤 요청에서 인터셉터를 발동시킬 것인가
                 ;
 
-        // 게시판 이터셉터 설정
+        // 게시판 인터셉터 설정
         registry
                 .addInterceptor(boardInterceptor)
                 .addPathPatterns("/board/*")
-                .excludePathPatterns("/board/list", "/board/detail")  // 인터셉터 발동을 제외할 경로
+                .excludePathPatterns("/board/list", "/board/detail")   // 인터셉터 발동을 제외할 경로
                 ;
 
-        // 자동로그인 인터셉터 설정
+        // 자동 로그인 인터셉터 설정
         registry
                 .addInterceptor(autoLoginInterceptor)
                 .addPathPatterns("/**")

@@ -1,8 +1,5 @@
 package com.spring.mvc.chap05.dto.response;
 
-//데이터 베이스ㅌ에서 가져온 순수한 날것의 데이터를
-//가공 해서 ㅈ장하고 있는 갹채
-
 import com.spring.mvc.chap05.entity.Board;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,18 +8,20 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-// 데이터베이스에서 가져온 순수한 날 것의 데이터를
-// 가공해서 저장하는 객체
+// 데이터베이스에서 가져온 순수한 날것의 데이터를
+// 가공해서 저장하고 있는 객체
+
 @Getter @ToString
 @EqualsAndHashCode
 public class BoardListResponseDTO {
 
     private final int boardNo;
-    private final String shortTitle; // 5자 이상이면 잘라내기
-    private final  String shortContent; // 30자 이상이면 잘라내기
+    private final String shortTitle; // 5글자 이상이면 잘라내기
+    private final String shortContent; // 30자 이상이면 잘라내기
     private final String date; // 날짜패턴 yyyy-MM-dd HH:mm
-    private final int viewCount; // 조회수
+    private final int viewCount;
     private final String account;
+
 
     public BoardListResponseDTO(Board board) {
         this.boardNo = board.getBoardNo();
@@ -60,7 +59,5 @@ public class BoardListResponseDTO {
                 : targetString
                 ;
     }
-
-
 
 }

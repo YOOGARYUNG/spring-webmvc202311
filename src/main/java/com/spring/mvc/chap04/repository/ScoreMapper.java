@@ -7,6 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface ScoreMapper {
+
+    // 성적 정보 전체 목록 조회
     List<Score> findAll(String sort);
 
     // 성적 정보 등록
@@ -17,5 +19,6 @@ public interface ScoreMapper {
 
     // 성적 정보 개별 조회
     Score findOne(int stuNum);
+
 
 }

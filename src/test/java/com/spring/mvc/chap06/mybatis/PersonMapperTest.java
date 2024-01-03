@@ -8,14 +8,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class PersonMapperTest {
-    
+
     @Autowired
     PersonMapper mapper;
-    
+
+
     @Test
-    @DisplayName("마이바티스로 데이터베이스에 사람데이터를 생성한다.")
+    @DisplayName("마이바티스로 데이터베이스에 사람데이터를 생성한다")
     void saveTest() {
         //given
         Person p = new Person("333", "김마바", 50);
@@ -23,6 +26,7 @@ class PersonMapperTest {
         mapper.save(p);
         //then
     }
+
 
     @Test
     @DisplayName("333번 회원을 수정한다")
@@ -45,6 +49,7 @@ class PersonMapperTest {
         //then
     }
 
+
     @Test
     @DisplayName("전체회원을 조회한다")
     void findAllTest() {
@@ -55,6 +60,8 @@ class PersonMapperTest {
         //then
         people.forEach(System.out::println);
     }
+
+
 
 
 

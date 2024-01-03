@@ -9,11 +9,11 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Search extends Page {
 
-    // 검색조건, 검색어
+    // 검색 조건, 검색어
     private String type, keyword;
 
     public Search() {
-        this.type= "";
+        this.type = "";
         this.keyword = "";
     }
 }

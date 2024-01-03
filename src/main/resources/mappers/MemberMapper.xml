@@ -6,14 +6,15 @@
 
     <insert id="save">
         INSERT INTO tbl_member
-            (account, password, name, email)
+            (account, password, name, email, profile_image)
         VALUES
-            (#{account}, #{password}, #{name}, #{email})
+            (#{account}, #{password}, #{name}, #{email}, #{profileImage})
     </insert>
 
     <select id="findMember" resultType="member">
         SELECT
-            account, password, name, email, auth, reg_date
+            account, password, name,
+            email, auth, reg_date, profile_image
         FROM tbl_member
         WHERE account = #{account}
     </select>
@@ -23,11 +24,12 @@
         SELECT COUNT(*)
         FROM tbl_member
         <if test="type == 'account'">
-        WHERE account = #{keyword}
+            WHERE account = #{keyword}
         </if>
         <if test="type == 'email'">
             WHERE email = #{keyword}
         </if>
+
     </select>
 
     <update id="saveAutoLogin">
@@ -42,5 +44,6 @@
         FROM tbl_member
         WHERE session_id = #{sessionId}
     </select>
+
 
 </mapper>

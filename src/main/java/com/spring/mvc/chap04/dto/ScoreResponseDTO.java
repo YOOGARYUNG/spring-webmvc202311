@@ -2,10 +2,7 @@ package com.spring.mvc.chap04.dto;
 
 import com.spring.mvc.chap04.entity.Grade;
 import com.spring.mvc.chap04.entity.Score;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * 서버가 클라이언트에 데이터를 전달할 때
@@ -14,14 +11,16 @@ import lombok.ToString;
  * 그래서 클라이언트에 보여줄 데이터만 선별해서 응답하도록
  * 이 클래스를 사용한다.
  */
+
 @RequiredArgsConstructor // final만 골라서 초기화하는 생성자
 @Getter @ToString @EqualsAndHashCode
 public class ScoreResponseDTO {
 
     private final int stuNum;
-    private final String maskingName;// 첫글자 빼고 *로 마스킹 처리
+    private final String maskingName; // 첫글자 빼고 *로 마스킹 처리
     private final double average;
     private final Grade grade;
+
 
     public ScoreResponseDTO(Score score) {
         this.stuNum = score.getStuNum();
@@ -32,7 +31,6 @@ public class ScoreResponseDTO {
 
     private String makeMaskingName(String originalName) {
         String maskedName = String.valueOf(originalName.charAt(0));
-
         for (int i = 0; i < originalName.length() - 1; i++) {
             maskedName += "*";
         }

@@ -1,17 +1,20 @@
 package com.spring.mvc.chap05.controller;
 
+
 import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
+import com.spring.mvc.util.LoginUtils;
+import com.spring.mvc.util.upload.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -27,12 +30,15 @@ import static com.spring.mvc.util.LoginUtils.*;
 @RequiredArgsConstructor
 public class MemberController {
 
+    @Value("${file.upload.root-path}")
+    private String rootPath;
+
     private final MemberService memberService;
 
     // 회원 가입 양식 요청
     @GetMapping("/sign-up")
     public String signUp() {
-        log.info("/memberssign-up GET : forwarding to sign-up.jsp");
+        log.info("/members/sign-up GET : forwarding to sign-up.jsp");
         return "members/sign-up";
     }
 
@@ -49,31 +55,38 @@ public class MemberController {
     // 회원가입 처리
     @PostMapping("/sign-up")
     public String signUp(SignUpRequestDTO dto) {
-        log.info("/member/sign-up POST!");
+        log.info("/member/sign-up POST !");
         log.debug("parameter: {}", dto);
-        boolean flag = memberService.join(dto);
+        log.debug("attached file name: {}", dto.getProfileImage().getOriginalFilename());
+
+        // 서버에 파일 업로드
+        String savePath = FileUtil.uploadFile(dto.getProfileImage(), rootPath);
+        log.debug("save-path: {}", savePath);
+
+         boolean flag = memberService.join(dto, savePath);
         return flag ? "redirect:/board/list" : "redirect:/members/sign-up";
+
     }
 
     // 로그인 양식 요청
     @GetMapping("/sign-in")
     public String signIn(HttpSession session) {
 
-//        if (session.getAttribute("login") == null) {
+//        if (session.getAttribute("login") != null) {
 //            return "redirect:/";
 //        }
 
         log.info("/members/sign-in GET - forwarding to sign-in.jsp");
 
-        return  "members/sign-in";
+        return "members/sign-in";
     }
 
     // 로그인 검증 요청
     @PostMapping("/sign-in")
     public String signIn(
             LoginRequestDTO dto
-            // Model에 담긴 데이터는 리다이렉트시 jsp로 가지 않는다
-            // 왜냐하면 리다이렉트는 요청이 2번들어가서 첫번째요청시 보관한 데이터가 소실된다.
+            // Model에 담긴 데이터는 리다이렉트시 jsp로 가지 않는다.
+            // 왜냐면 리다이렉트는 요청이 2번들어가서 첫번째요청시 보관한 데이터가 소실된다.
             , RedirectAttributes ra
             , HttpServletResponse response
             , HttpServletRequest request
@@ -89,10 +102,12 @@ public class MemberController {
 
         if (result == LoginResult.SUCCESS) { // 로그인 성공시
 
-//            makeLoginCookie(dto, response); // 로그인 유지
+            // makeLoginCookie(dto, response);  // 쿠키로 로그인 유지
 
             // 세션으로 로그인 유지
-            memberService.maintainloginState(request.getSession(), dto.getAccount());
+            memberService.maintainLoginState(request.getSession(), dto.getAccount());
+
+
             return "redirect:/";
         }
 
@@ -115,7 +130,7 @@ public class MemberController {
     public String signOut(
             HttpServletRequest request
             , HttpServletResponse response
-//            HttpSession session
+            // HttpSession session
     ) {
         // 세션 얻기
         HttpSession session = request.getSession();
@@ -123,7 +138,7 @@ public class MemberController {
         // 로그인 상태인지 확인
         if (isLogin(session)) {
 
-            // 자동 로그인 상태인지 확인
+            // 자동 로그인 상태인지도 확인
             if (isAutoLogin(request)) {
                 // 쿠키를 삭제해주고 디비데이터도 원래대로 돌려놓는다.
                 memberService.autoLoginClear(request, response);
@@ -135,9 +150,10 @@ public class MemberController {
             // 세션을 초기화(RESET)
             session.invalidate();
 
-            return"redirect:/";
+            return "redirect:/";
         }
         return "redirect:/members/sign-in";
+
     }
 
 }

@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/hw")
 public class LoginController {
+
     /*
         1번요청: 로그인 폼 화면 열어주기
         - 요청 URL : /hw/s-login-form : GET
@@ -25,6 +24,7 @@ public class LoginController {
         - jsp에게 전달할 데이터: 로그인 성공여부, 아이디 없는경우, 비번 틀린경우
 
      */
+
     // 로그인 화면 열기 요청
     @GetMapping("/s-login-form")
     public String sLoginForm() {
@@ -36,10 +36,13 @@ public class LoginController {
     public String sLoginCheck(
             @RequestParam("id") String inputId,
             @RequestParam("pw") String inputPw,
-            Model model) {
+            Model model
+    ) {
+
         String responseMessage; // 로그인 결과를 담을 변수
+
         if (inputId.equals("grape111")) {
-            if (inputPw.equals("ggg9999")){
+            if (inputPw.equals("ggg9999")) {
                 // 로그인 성공
                 responseMessage = "success";
             } else {
@@ -54,5 +57,6 @@ public class LoginController {
 
         return "chap03/s-result";
     }
+
 
 }

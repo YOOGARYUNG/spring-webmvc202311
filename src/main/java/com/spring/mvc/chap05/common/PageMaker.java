@@ -14,15 +14,13 @@ public class PageMaker {
     // 이전, 다음 버튼 활성화 여부
     private boolean prev, next;
 
-
     // 현재 페이지 정보
     private Page page;
 
     // 총 게시물 수
     private int totalCount;
-    private int amount;
 
-    public PageMaker(Page page, int totalCount) {
+    public PageMaker(Page page, int totalCount)  {
         this.page = page;
         this.totalCount = totalCount;
 
@@ -90,8 +88,5 @@ public class PageMaker {
 
         // 4. next활성화 여부 - 마지막 페이지구간에서만 비활성화
         this.next = this.end < this.finalPage;
-
-        this.amount = page.getAmount();
-
     }
 }
