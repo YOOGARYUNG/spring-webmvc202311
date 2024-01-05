@@ -2,6 +2,7 @@ package com.spring.mvc.chap05.service;
 
 import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.dto.response.KakaoUserResponseDTO;
+import com.spring.mvc.chap05.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -36,22 +37,24 @@ public class SnsLoginService {
         // 카카오에서 받은 회원정보로 우리 사이트 회원가입
         String nickname = dto.getProperties().getNickname();
 
-        // 회원 중복확인 - 원래는 nickname이 아니라 이메일로 검사
-        if (memberService.checkDuplicateValue("account", nickname)) {
+        // 회원 중복확인 - 원래는 이메일로 검사해야함
+        if (!memberService.checkDuplicateValue("account", nickname)) {
             memberService.join(
                     SignUpRequestDTO.builder()
                             .account(nickname)
                             .password("0000")
                             .name(nickname)
                             .email(nickname + "@abc.com")
+                            .loginMethod(Member.LoginMethod.KAKAO)
                             .build(),
                     dto.getProperties().getProfileImage()
             );
-
         }
 
         // 우리 사이트 로그인 처리
         memberService.maintainLoginState(session, nickname);
+
+
     }
 
     // 토큰으로 사용자 정보 요청

@@ -3,18 +3,20 @@ package com.spring.mvc.chap05.controller;
 
 import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
+import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
+import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
-import com.spring.mvc.util.LoginUtils;
 import com.spring.mvc.util.upload.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -63,7 +65,10 @@ public class MemberController {
         String savePath = FileUtil.uploadFile(dto.getProfileImage(), rootPath);
         log.debug("save-path: {}", savePath);
 
-         boolean flag = memberService.join(dto, savePath);
+        // 일반 방식(우리사이트를 통해)으로 회원가입
+        dto.setLoginMethod(Member.LoginMethod.COMMON);
+
+        boolean flag = memberService.join(dto, savePath);
         return flag ? "redirect:/board/list" : "redirect:/members/sign-up";
 
     }
@@ -143,6 +148,13 @@ public class MemberController {
                 // 쿠키를 삭제해주고 디비데이터도 원래대로 돌려놓는다.
                 memberService.autoLoginClear(request, response);
             }
+
+            // sns 로그인 상태인지 확인
+            LoginUserResponseDTO attribute = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
+            if (attribute.getLoginMethod().equals("KAKAO")) {
+                // 카카오 로그아웃 통신~~~~
+            }
+
 
             // 세션에서 로그인 정보 기록 삭제
             session.removeAttribute(LOGIN_KEY);

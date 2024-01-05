@@ -24,7 +24,7 @@ public class KakaoUserResponseDTO {
 
         @JsonProperty("profile_image")
         private String profileImage;
-        @JsonProperty("thunbnail_iamge")
+        @JsonProperty("thumbnail_image")
         private String thumbnailImage;
     }
 }

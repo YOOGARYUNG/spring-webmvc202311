@@ -496,7 +496,7 @@
 
       // 삭제버튼에만 이벤트가 작동하도록 설정
       if (e.target.matches('#replyDelBtn')) {
-        // console.log('삭제 버튼 클릭!');
+        console.log('삭제 버튼 클릭!');
 
         if (!confirm('정말 삭제할까요??')) return;
 
